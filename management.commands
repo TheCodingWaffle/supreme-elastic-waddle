@@ -1,0 +1,47 @@
+// create role
+POST/_security/role/logstash_write_role
+{
+  "cluster": [
+    "all"
+  ],
+    "indices": [
+      {
+        "names": [
+          "indexname*"
+        ],
+        "privileges": [
+          "write",
+          "create_index"
+        ],
+        "field_security": {
+          "grant": [
+            "*"
+          ]
+        }
+      }
+    ],
+      "run_as": [],
+        "metadata": { },
+  "transient_metadata": {
+    "enabled": true
+  }
+}
+
+// create user
+POST / _security / user / logstash_writer
+{
+  "username": "logstash_writer",
+    "roles": [
+      "logstash_write_role"
+    ],
+      "full_name": null,
+        "email": null,
+          "password": "CHANGEME",
+            "enabled": true
+}
+
+// change user password
+POST /_security/user/logstash_writer/_password
+{
+  "password" : "youNewSecurePassword"
+}
